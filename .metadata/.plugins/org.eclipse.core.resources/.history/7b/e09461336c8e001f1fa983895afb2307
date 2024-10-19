@@ -69,12 +69,12 @@ public class Login {
         PL.getContentPane().add(panel);
         panel.setLayout(null);
         
-        JPanel shadowPanel = new JPanel();
-        shadowPanel.setBackground(new Color(252, 186, 210));
-        shadowPanel.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191)));
-        shadowPanel.setBounds(246, 126, 533, 578);
-        PL.getContentPane().add(shadowPanel);
-        shadowPanel.setLayout(null);
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(253, 242, 249));
+        panel.setBorder(null);
+        panel.setBounds(191, 78, 533, 578);
+        PL.getContentPane().add(panel);
+        panel.setLayout(null);
 
         teresita = new JLabel(""); 
         teresita.setHorizontalAlignment(SwingConstants.CENTER);

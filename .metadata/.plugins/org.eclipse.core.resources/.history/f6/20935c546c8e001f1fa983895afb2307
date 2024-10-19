@@ -70,9 +70,9 @@ public class Login {
         panel.setLayout(null);
         
         JPanel shadowPanel = new JPanel();
-        shadowPanel.setBackground(new Color(252, 186, 210));
-        shadowPanel.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191)));
-        shadowPanel.setBounds(246, 126, 533, 578);
+        shadowPanel.setBackground(new Color(253, 242, 249));
+        shadowPanel.setBorder(null);
+        shadowPanel.setBounds(191, 78, 533, 590);
         PL.getContentPane().add(shadowPanel);
         shadowPanel.setLayout(null);
 

@@ -68,13 +68,6 @@ public class Login {
         panel.setBounds(191, 78, 533, 578);
         PL.getContentPane().add(panel);
         panel.setLayout(null);
-        
-        JPanel shadowPanel = new JPanel();
-        shadowPanel.setBackground(new Color(252, 186, 210));
-        shadowPanel.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191), new Color(244, 132, 191)));
-        shadowPanel.setBounds(246, 126, 533, 578);
-        PL.getContentPane().add(shadowPanel);
-        shadowPanel.setLayout(null);
 
         teresita = new JLabel(""); 
         teresita.setHorizontalAlignment(SwingConstants.CENTER);
@@ -169,12 +162,12 @@ public class Login {
                         if (usserCorrecto != null && pass != null && pass.equals(passCorrecta)) {
                             if (tipo != null) {
                                 if (tipo.equalsIgnoreCase("ADMIN")) {
-                                    JOptionPane.showMessageDialog(null, "¡BIENVENIDO, ADMIN!");
+                                    JOptionPane.showMessageDialog(null, "¡BIENVENIDO, ADMIN");
                   
                                     // Redirigir a la interfaz de Admin
                                     PL.dispose();
                                 } else if (tipo.equalsIgnoreCase("VENDEDOR")) {
-                                    JOptionPane.showMessageDialog(null, "¡BIENVENIDO, VENDEDOR!");
+                                    JOptionPane.showMessageDialog(null, "Acceso Permitido");
                                     // Redirigir a la interfaz de Vendedor
                                     PL.dispose();
                                 }
