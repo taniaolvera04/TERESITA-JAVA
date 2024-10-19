@@ -1,0 +1,142 @@
+package Vista;
+
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class Login {
+    JFrame PL;
+    private JLabel fondo;
+    int ancho, alto;
+    private JLabel teresita; 
+    private JLabel lblu;
+    private JTextField txtu;
+    private JLabel creditos;
+    private JPasswordField txtc;
+    private JPanel panel_1;
+    private JLabel teresita_1;
+    private JLabel lblu_1;
+    private JTextField textField;
+    private JLabel lblc_1;
+    private JLabel creditos_1;
+    private JPasswordField passwordField;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Login window = new Login();
+                    window.PL.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public Login() {
+        initialize();
+    }
+
+    private void initialize() {
+        PL = new JFrame();
+        PL.setBounds(100, 100, 1040, 784);
+        PL.setLocationRelativeTo(null);
+        PL.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        PL.getContentPane().setLayout(null);
+
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(253, 242, 249));
+        panel.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0), null));
+        panel.setBounds(191, 78, 533, 578);
+        PL.getContentPane().add(panel);
+        panel.setLayout(null);
+
+        teresita = new JLabel(""); 
+        teresita.setHorizontalAlignment(SwingConstants.CENTER);
+        teresita.setBounds(183, 33, 152, 155);
+        panel.add(teresita);
+        ancho = teresita.getWidth();
+        alto = teresita.getHeight();
+        Image foto3 = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/08TeresitaLogo.png"));
+        teresita.setIcon(new ImageIcon(foto3.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH)));
+
+        lblu = new JLabel("USUARIO");
+        lblu.setForeground(new Color(244, 132, 191));
+        lblu.setHorizontalAlignment(SwingConstants.CENTER);
+        lblu.setFont(new Font("Dubai", Font.BOLD, 20));
+        lblu.setBounds(208, 207, 94, 21);
+        panel.add(lblu);
+
+        txtu = new JTextField();
+        txtu.setForeground(new Color(145, 79, 172));
+        txtu.setHorizontalAlignment(SwingConstants.CENTER);
+        txtu.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (txtu.getText().length() >= 50) {
+                    e.consume();
+                }
+            }
+        });
+        txtu.setFont(new Font("Dubai", Font.PLAIN, 14));
+        txtu.setBounds(92, 240, 337, 43);
+        panel.add(txtu);
+        txtu.setColumns(10);
+
+        JLabel lblc = new JLabel("CONTRASEÑA");
+        lblc.setForeground(new Color(244, 132, 191));
+        lblc.setHorizontalAlignment(SwingConstants.CENTER);
+        lblc.setFont(new Font("Dubai", Font.BOLD, 20));
+        lblc.setBounds(172, 332, 166, 21);
+        panel.add(lblc);
+
+        creditos = new JLabel("©2024 PAPELERÍA TERESITA\r\n");
+        creditos.setForeground(new Color(63, 63, 63));
+        creditos.setHorizontalAlignment(SwingConstants.CENTER);
+        creditos.setFont(new Font("Dubai", Font.BOLD, 17));
+        creditos.setBounds(113, 478, 305, 31);
+        panel.add(creditos);
+        
+        txtc = new JPasswordField();
+        txtc.setForeground(new Color(145, 79, 172));
+        txtc.setFont(new Font("Dubai", Font.PLAIN, 14));
+        txtc.setBounds(92, 373, 337, 43);
+        panel.add(txtc);
+        
+        panel_1 = new JPanel();
+        panel_1.setLayout(null);
+        panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0), null));
+        panel_1.setBackground(new Color(253, 242, 249));
+        panel_1.setBounds(508, 122, 533, 578);
+        PL.getContentPane().add(panel_1);
+        
+     
+        
+        passwordField = new JPasswordField();
+        passwordField.setForeground(new Color(145, 79, 172));
+        passwordField.setFont(new Font("Dubai", Font.PLAIN, 14));
+        passwordField.setBounds(92, 373, 337, 43);
+        panel_1.add(passwordField);
+
+        fondo = new JLabel("            ");
+        fondo.setBounds(0, 0, 1026, 747);
+        PL.getContentPane().add(fondo);
+        ancho = fondo.getWidth();
+        alto = fondo.getHeight();
+        Image foto = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/fondo.png"));
+        fondo.setIcon(new ImageIcon(foto.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH)));
+    }
+}

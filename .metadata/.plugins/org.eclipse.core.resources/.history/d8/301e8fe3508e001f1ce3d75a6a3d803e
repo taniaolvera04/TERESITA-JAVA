@@ -1,0 +1,42 @@
+package Modelo;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
+public class Conexion {
+  private static final String controlador="com.mysql.cj.jdbc.Driver"; 
+  private static final String url="jdbc:mysql://localhost:3306/teresita"; //NOMBRE DE BASE DE DATOS
+  private static final String usuario="root";
+  private static final String password="";
+
+
+  
+static {
+	try {
+		Class.forName(controlador);
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+}
+
+
+
+public Connection conectar() {
+	Connection cx=null;
+	try {
+		cx=DriverManager.getConnection(url, usuario, password);
+		System.out.println("Se logró conectar a BD");
+	} catch (SQLException e) {
+		System.out.println("No se logró coneexión");
+		e.printStackTrace();
+	}
+	return cx;
+}
+
+public static void main(String[]args) {
+	Conexion c=new Conexion();
+	c.conectar();
+}
+}

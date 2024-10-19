@@ -1,0 +1,42 @@
+package Controlador;
+
+public class metodosTeresita {
+	int idu;
+	String nombre;
+	String ap;
+	String am;
+	String username;
+	String password;
+	String tf;
+	String tel;
+	
+	String codigo;
+	int cuantos;
+	String tipo;
+	
+	
+
+	String nombrep;
+	double precioc;
+	double preciov;
+	double capacidad;
+	int stock;
+	int idp;
+
+
+	int foliov;
+
+	String nombreprov;
+	int idprov;
+	double total;
+
+
+
+	int cantidad;
+
+	double subtotal;
+	double iva;
+
+
+
+}
