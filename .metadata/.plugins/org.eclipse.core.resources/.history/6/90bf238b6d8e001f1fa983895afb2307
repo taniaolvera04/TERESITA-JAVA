@@ -1,0 +1,53 @@
+package Vista;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Toolkit;
+
+public class AdminProductos {
+
+	private JFrame frmAdminProductos;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminProductos window = new AdminProductos();
+					window.frmAdminProductos.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AdminProductos() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmAdminProductos = new JFrame();
+		frmAdminProductos.setTitle("ADMIN — PRODUCTOS");
+		frmAdminProductos.setIconImage(Toolkit.getDefaultToolkit().getImage(AdminProductos.class.getResource("/img/08TeresitaLogo.png")));
+		frmAdminProductos.setBounds(100, 100, 1054, 773);
+		frmAdminProductos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(253, 242, 242));
+		frmAdminProductos.getContentPane().add(panel, BorderLayout.CENTER);
+	}
+
+}

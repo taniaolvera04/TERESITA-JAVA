@@ -57,8 +57,11 @@ public class Login {
 
     private void initialize() {
         PL = new JFrame();
+        PL.setResizable(false);
+        PL.setTitle("LOGIN");
+        PL.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/08TeresitaLogo.png")));
         PL.setBounds(100, 100, 1040, 784);
-        PL.setLocationRelativeTo(null);
+        PL.setLocationRelativeTo(null); //CENTRAR PANTALLA
         PL.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         PL.getContentPane().setLayout(null);
 
