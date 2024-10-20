@@ -96,14 +96,61 @@ public boolean actualizarProducto(MetodosTeresita mt) {
 
 
 
-/*
-public int existeUsuario(metodosTeresita mt) {
+
+//MÉTODOS DE DIRECCIÓN
+
+public boolean insertarDir(MetodosTeresita mt) {
+	PreparedStatement ps=null;
+	try {
+		ps=conectar().prepareStatement("INSERT INTO direccion(id_dir, calle, col, numero, cp) VALUES(?, ?, ?, ?, ?)");
+	ps.setInt(1, mt.getIddir());
+		ps.setString(2, mt.getCalle());
+		ps.setString(3, mt.getCol());
+		ps.setInt(4, mt.getNumero());
+		ps.setInt(5, mt.getCp());
+		ps.executeUpdate();
+		return true;
+		
+	}catch(SQLException e) {
+		return false;
+		
+	}
+	
+}
+
+
+public boolean actualizarDir(MetodosTeresita mt) {
+PreparedStatement ps=null;
+System.out.println("Entró, actualizar");
+try {
+	 System.out.println("CONEXIÓN ACTUALIZAR D");
+ps=conectar().prepareStatement("UPDATE direccion SET calle=?, col=?, numero=?, cp=? WHERE id_dir=?");
+
+
+ps.setString(1, mt.getCalle());
+ps.setString(2, mt.getCol());
+ps.setInt(3, mt.getNumero());
+ps.setInt(4, mt.getCp());
+ps.setInt(5, mt.getIddir());
+ps.executeUpdate();
+
+return true;
+}catch(SQLException e) {
+return false;
+}
+}
+
+
+
+
+
+public int existeUsuario(MetodosTeresita mt) {
 	PreparedStatement ps=null;
 	ResultSet rs=null;
 	int cli=0;
 	try {
 	ps= conectar().prepareStatement("SELECT COUNT(*) cuantos FROM usuario WHERE id_u=?");
-	ps.setInt(1, mt.getIdU());
+	ps.setInt(1, mt.getIdu());
 	rs=ps.executeQuery();
 	if(rs.next()) {
 	cli=(rs.getInt("cuantos"));
@@ -119,7 +166,7 @@ public int existeUsuario(metodosTeresita mt) {
 
 
 
-public boolean insertarUsuario(KirikoLRS k) {
+public boolean insertarU(MetodosTeresita mt) {
 	PreparedStatement ps=null;
 	try {
 		ps=conectar().prepareStatement("INSERT INTO usuario(id_u, nombre, ap, ussername, password, tipo, codigo) VALUES(?, ?, ?, ?, ?, ?, ?)");
@@ -141,7 +188,7 @@ public boolean insertarUsuario(KirikoLRS k) {
 }
 
 
-public boolean consultarUsuario(KirikoLRS k) {
+public boolean consultarU(MetodosTeresita mt) {
 	PreparedStatement ps=null;
 	ResultSet rs=null;
 	System.out.println("Entro");
@@ -167,7 +214,7 @@ public boolean consultarUsuario(KirikoLRS k) {
 	 }
 	 }
 
-public boolean eliminarUsuario(KirikoLRS k) {
+public boolean eliminarU(MetodosTeresita mt) {
 	PreparedStatement ps=null;
 	Conexion c=new Conexion();
 	c.existe(k);
@@ -187,7 +234,7 @@ public boolean eliminarUsuario(KirikoLRS k) {
 	 }
 	 
 	 
-	 public boolean actualizarUsuario(KirikoLRS k) {
+	 public boolean actualizarU(MetodosTeresita mt) {
 	 PreparedStatement ps=null;
 	 System.out.println("Entro");
 	 try {
@@ -206,7 +253,7 @@ public boolean eliminarUsuario(KirikoLRS k) {
 	  return false;
 	 }
 	}
-*/
+
 	 
 }
 	 

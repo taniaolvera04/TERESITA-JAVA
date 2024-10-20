@@ -1,0 +1,78 @@
+package Vista;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import java.awt.Toolkit;
+import java.awt.Color;
+import java.awt.BorderLayout;
+
+public class AdminUsuarios {
+
+	private JFrame PLU;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminUsuarios window = new AdminUsuarios();
+					window.PLU.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AdminUsuarios() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		PLU = new JFrame();
+		PLU.getContentPane().setBackground(new Color(255, 234, 248));
+		PLU.setIconImage(Toolkit.getDefaultToolkit().getImage(AdminUsuarios.class.getResource("/img/08TeresitaLogo.png")));
+		PLU.setTitle("ADMIN — USUARIOS");
+		PLU.setBounds(100, 100, 940, 720);
+		PLU.setLocationRelativeTo(null);
+		
+		PLU.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	     JPanel panel = new JPanel();
+	        panel.setLayout(null); // Establecer layout a null
+	        panel.setBackground(new Color(253, 242, 249));
+	        PLP.getContentPane().add(panel);
+	        
+	        JLabel lblp = new JLabel("PRODUCTOS");
+	        lblp.setForeground(new Color(128, 128, 128));
+	        lblp.setHorizontalAlignment(SwingConstants.CENTER);
+	        lblp.setFont(new Font("Dubai", Font.BOLD, 20));
+	        lblp.setBounds(469, 97, 200, 50); // Cambia la posición y el tamaño
+	        panel.add(lblp);
+	        
+	        JLabel lblt = new JLabel("");
+	        lblt.setBounds(514, 0, 119, 110);
+	        panel.add(lblt);
+	        Image foto = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/08TeresitaLogo.png"));
+	        lblt.setIcon(new ImageIcon(foto.getScaledInstance(lblt.getWidth(), lblt.getHeight(), Image.SCALE_SMOOTH)));
+		
+		
+	}
+
+}

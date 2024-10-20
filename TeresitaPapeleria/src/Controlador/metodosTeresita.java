@@ -11,8 +11,8 @@ public class MetodosTeresita {
 	String am;
 	String username;
 	String password;
-	String tf;
-	String tc;
+	int tf;
+	int tc;
 	String tipo;
 	int iddir;
 	
@@ -33,7 +33,7 @@ public class MetodosTeresita {
 	String col;
 	int numero;
 	int cp;
-	
+
 	
 	
 	//MÉTODOS PRODUCTO
@@ -61,6 +61,40 @@ public boolean actualizarProducto() {
 	}
 }
 	
+
+public boolean insertarDir() {
+	if(cx.insertarDir(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
+
+
+public boolean actualizarDir() {
+	if(cx.actualizarDir(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
+	
+public boolean insertarU() {
+	if(cx.insertarU(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
+
+
+public boolean actualizarU() {
+	if(cx.actualizarU(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
 
 //SETTERS Y GETTERS DE VARIABLES
 	
@@ -100,16 +134,16 @@ public boolean actualizarProducto() {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getTf() {
+	public int getTf() {
 		return tf;
 	}
-	public void setTf(String tf) {
+	public void setTf(int tf) {
 		this.tf = tf;
 	}
-	public String getTc() {
+	public int getTc() {
 		return tc;
 	}
-	public void setTc(String tc) {
+	public void setTc(int tc) {
 		this.tc = tc;
 	}
 	public String getTipo() {
@@ -130,6 +164,8 @@ public boolean actualizarProducto() {
 	public void setCuantos(int cuantos) {
 		this.cuantos = cuantos;
 	}
+	
+	
 	
 	
 	public int getIdp() {
