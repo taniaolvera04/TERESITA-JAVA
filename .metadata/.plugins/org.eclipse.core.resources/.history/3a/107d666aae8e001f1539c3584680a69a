@@ -1,0 +1,243 @@
+package Vista;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+
+import Modelo.Conexion;
+
+public class AdminProductos {
+
+    private JFrame PLP;
+    private JTextField txtnomp;
+    private JTextField txttamano;
+    private JTextField txtcostoc;
+    private JTextField txtcostov;
+    private JTextField txtstock;
+    private JTable table;
+    private JTextField txtid;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    AdminProductos window = new AdminProductos();
+                    window.PLP.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public AdminProductos() {
+        initialize();
+    }
+
+    private void initialize() {
+        PLP = new JFrame();
+        PLP.setTitle("ADMIN — PRODUCTOS");
+        PLP.setIconImage(Toolkit.getDefaultToolkit().getImage(AdminProductos.class.getResource("/img/08TeresitaLogo.png")));
+        PLP.setBounds(100, 100, 1164, 770);
+        PLP.setLocationRelativeTo(null);
+        PLP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(null); // Establecer layout a null
+        panel.setBackground(new Color(253, 242, 249));
+        PLP.getContentPane().add(panel);
+        
+        JLabel lblp = new JLabel("PRODUCTOS");
+        lblp.setForeground(new Color(128, 128, 128));
+        lblp.setHorizontalAlignment(SwingConstants.CENTER);
+        lblp.setFont(new Font("Dubai", Font.BOLD, 20));
+        lblp.setBounds(469, 97, 200, 50); // Cambia la posición y el tamaño
+        panel.add(lblp);
+        
+        JLabel lblt = new JLabel("");
+        lblt.setBounds(514, 0, 119, 110);
+        panel.add(lblt);
+        Image foto = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/08TeresitaLogo.png"));
+        lblt.setIcon(new ImageIcon(foto.getScaledInstance(lblt.getWidth(), lblt.getHeight(), Image.SCALE_SMOOTH)));
+        
+        JLabel lblnomp = new JLabel("NOMBRE");
+        lblnomp.setForeground(new Color(249, 128, 170));
+        lblnomp.setHorizontalAlignment(SwingConstants.CENTER);
+        lblnomp.setFont(new Font("Dubai", Font.BOLD, 17));
+        lblnomp.setBounds(110, 164, 119, 28);
+        panel.add(lblnomp);
+        
+        txtnomp = new JTextField();
+        txtnomp.setHorizontalAlignment(SwingConstants.CENTER);
+        txtnomp.setFont(new Font("Dubai", Font.BOLD, 16));
+        txtnomp.setBounds(58, 197, 225, 38);
+        panel.add(txtnomp);
+        txtnomp.setColumns(10);
+        
+        JLabel lbltamano = new JLabel("TAMAÑO");
+        lbltamano.setHorizontalAlignment(SwingConstants.CENTER);
+        lbltamano.setForeground(new Color(249, 128, 170));
+        lbltamano.setFont(new Font("Dubai", Font.BOLD, 17));
+        lbltamano.setBounds(110, 270, 119, 28);
+        panel.add(lbltamano);
+        
+        txttamano = new JTextField();
+        txttamano.setHorizontalAlignment(SwingConstants.CENTER);
+        txttamano.setFont(new Font("Dubai", Font.BOLD, 16));
+        txttamano.setColumns(10);
+        txttamano.setBounds(58, 308, 225, 38);
+        panel.add(txttamano);
+        
+        JLabel lblcostoc = new JLabel("COSTO (C)");
+        lblcostoc.setHorizontalAlignment(SwingConstants.CENTER);
+        lblcostoc.setForeground(new Color(249, 128, 170));
+        lblcostoc.setFont(new Font("Dubai", Font.BOLD, 17));
+        lblcostoc.setBounds(110, 385, 119, 28);
+        panel.add(lblcostoc);
+        
+        txtcostoc = new JTextField();
+        txtcostoc.setHorizontalAlignment(SwingConstants.CENTER);
+        txtcostoc.setFont(new Font("Dubai", Font.BOLD, 16));
+        txtcostoc.setColumns(10);
+        txtcostoc.setBounds(58, 423, 225, 38);
+        panel.add(txtcostoc);
+        
+        JLabel lblCostov = new JLabel("COSTO (V)");
+        lblCostov.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCostov.setForeground(new Color(249, 128, 170));
+        lblCostov.setFont(new Font("Dubai", Font.BOLD, 17));
+        lblCostov.setBounds(110, 495, 119, 28);
+        panel.add(lblCostov);
+        
+        txtcostov = new JTextField();
+        txtcostov.setFont(new Font("Dubai", Font.BOLD, 16));
+        txtcostov.setColumns(10);
+        txtcostov.setBounds(58, 528, 225, 38);
+        panel.add(txtcostov);
+        
+        JLabel lblcant = new JLabel("CANTIDAD");
+        lblcant.setHorizontalAlignment(SwingConstants.CENTER);
+        lblcant.setForeground(new Color(249, 128, 170));
+        lblcant.setFont(new Font("Dubai", Font.BOLD, 17));
+        lblcant.setBounds(110, 609, 119, 28);
+        panel.add(lblcant);
+        
+        txtstock = new JTextField();
+        txtstock.setHorizontalAlignment(SwingConstants.CENTER);
+        txtstock.setFont(new Font("Dubai", Font.BOLD, 16));
+        txtstock.setColumns(10);
+        txtstock.setBounds(58, 641, 225, 38);
+        panel.add(txtstock);
+        
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        scrollPane.setBounds(332, 197, 516, 488);
+       panel.add(scrollPane);
+
+        JTable tablaproducto = new JTable();
+        tablaproducto.setBackground(new Color(255, 221, 255));
+        tablaproducto.setForeground(new Color(128, 0, 128));
+        tablaproducto.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                lbl.setVisible(true);
+                txtid.setVisible(true);
+                try {
+                    Conexion cx = new Conexion();
+                    Connection cn = cx.conectar();
+                    int fila = tablaproducto.getSelectedRow();
+                    String idp = tablaproducto.getValueAt(fila, 0).toString();
+                    ps = cn.prepareStatement("SELECT id_p, nombrep, tamano, costoc, costov, stock FROM producto WHERE id_p=?");
+                    ps.setString(1, idp);
+                    rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        txtid.setText(rs.getString("id_p"));
+                        txtnomp.setText(rs.getString("nombrep"));
+                        txttamano.setText(rs.getString("tamano"));
+                        txtcostoc.setText(rs.getString("costoc"));
+                        txtcostov.setText(rs.getString("costov"));
+                        txtcantidad.setText(rs.getString("stock"));
+                    }
+
+                } catch (Exception e2) {
+                    System.out.println(e2.toString());
+                }
+            }
+        });
+        tablaproducto.setFont(new Font("Segoe UI", Font.ITALIC, 13));
+        tablaproducto.setModel(new DefaultTableModel(
+            new Object[][] {
+            },
+            new String[] {
+            }
+        ));
+        scrollPane.setViewportView(tablaproducto);
+
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            tablaproducto.setModel(modelo);
+            
+            txtid = new JTextField();
+            txtid.setEnabled(false);
+            txtid.setEditable(false);
+            txtid.setHorizontalAlignment(SwingConstants.CENTER);
+            txtid.setFont(new Font("Dubai", Font.BOLD, 16));
+            txtid.setColumns(10);
+            txtid.setBounds(58, 689, 225, 38);
+            panel.add(txtid);
+            
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            Conexion cn = new Conexion();
+            Connection conectar = cn.conectar();
+            
+            String sql = "SELECT id_p, nombrep, tamano, costoc, costov, stock FROM producto";
+            ps = conectar.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ResultSetMetaData rmds = (ResultSetMetaData) rs.getMetaData();
+            int cantcol = rmds.getColumnCount();
+            modelo.addColumn("ID");
+            modelo.addColumn("NOMBRE");
+            modelo.addColumn("TAMAÑO");
+            modelo.addColumn("COSTO COMPRA");
+            modelo.addColumn("COSTO VENTA");
+            modelo.addColumn("STOCK");
+
+            while (rs.next()) {
+                Object[] filas = new Object[cantcol];
+                for (int i = 0; i < cantcol; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            } 
+
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+    }
+}

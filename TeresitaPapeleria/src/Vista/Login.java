@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 
 import javax.swing.border.EtchedBorder;
 
-import Controlador.metodosTeresita;
+import Controlador.MetodosTeresita;
 import Modelo.Conexion; // Importa la clase Conexion
 
 public class Login {
@@ -141,7 +141,7 @@ public class Login {
         
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                metodosTeresita mt = new metodosTeresita();
+                MetodosTeresita mt = new MetodosTeresita();
                 String usuario = txtu.getText();
                 String pass = String.valueOf(txtc.getPassword());
                 

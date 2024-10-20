@@ -6,7 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import Controlador.metodosTeresita;
+import Controlador.MetodosTeresita;
+
 
 
 public class Conexion {
@@ -27,6 +28,7 @@ static {
 
 
 
+
 public Connection conectar() {
 	Connection cx=null;
 	try {
@@ -43,6 +45,55 @@ public static void main(String[]args) {
 	Conexion c=new Conexion();
 	c.conectar();
 }
+
+
+
+//MÉTODOS DE PRODUCTO
+
+public boolean insertarProducto(MetodosTeresita mt) {
+	PreparedStatement ps=null;
+	try {
+		ps=conectar().prepareStatement("INSERT INTO producto(id_p, nombrep, costoc, costov, tamano, stock) VALUES(?, ?, ?, ?, ?, ?)");
+	ps.setInt(1, mt.getIdp());
+		ps.setString(2, mt.getNombrep());
+		ps.setDouble(3, mt.getCostoc());
+		ps.setDouble(4, mt.getCostov());
+		ps.setString(5, mt.getTamano());
+		ps.setInt(6, mt.getStock());
+		ps.executeUpdate();
+		return true;
+		
+	}catch(SQLException e) {
+		return false;
+		
+	}
+	
+}
+
+
+public boolean actualizarProducto(MetodosTeresita mt) {
+ PreparedStatement ps=null;
+ System.out.println("Entró, actualizar");
+ try {
+	 System.out.println("CONEXIÓN ACTUALIZAR");
+ ps=conectar().prepareStatement("UPDATE producto SET nombrep=?, costoc=?, costov=?, tamano=?, stock=? WHERE id_p=?");
+ 
+ 
+ ps.setString(1, mt.getNombrep());
+ ps.setDouble(2, mt.getCostoc());
+ ps.setDouble(3, mt.getCostov());
+ ps.setString(4, mt.getTamano());
+ ps.setInt(5, mt.getStock());
+ ps.setInt(6, mt.getIdp());
+  ps.executeUpdate();
+  
+  return true;
+ }catch(SQLException e) {
+  return false;
+ }
+}
+
+
 
 
 /*

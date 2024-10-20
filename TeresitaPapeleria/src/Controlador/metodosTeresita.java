@@ -1,6 +1,8 @@
 package Controlador;
 
-public class metodosTeresita {
+import Modelo.Conexion;
+
+public class MetodosTeresita {
 	
 	//VARIABLES DE USUARIO
 	int idu;
@@ -23,6 +25,7 @@ public class metodosTeresita {
 	double costoc;
 	double costov;
 	int stock;
+	int idp;
 	
 	//VARIABLES DE DIRECCIÓN
 	
@@ -33,7 +36,33 @@ public class metodosTeresita {
 	
 	
 	
+	//MÉTODOS PRODUCTO
 	
+	Conexion cx=null;
+	public MetodosTeresita() {
+		cx=new Conexion();
+	}
+
+
+public boolean insertarProducto() {
+	if(cx.insertarProducto(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
+
+
+public boolean actualizarProducto() {
+	if(cx.actualizarProducto(this)) {
+	return true;
+	}else {
+		return false;
+	}
+}
+	
+
+//SETTERS Y GETTERS DE VARIABLES
 	
 	public int getIdu() {
 		return idu;
@@ -101,6 +130,15 @@ public class metodosTeresita {
 	public void setCuantos(int cuantos) {
 		this.cuantos = cuantos;
 	}
+	
+	
+	public int getIdp() {
+		return idp;
+	}
+	public void setIdp(int idp) {
+		this.idp = idp;
+	}
+	
 	public String getNombrep() {
 		return nombrep;
 	}
