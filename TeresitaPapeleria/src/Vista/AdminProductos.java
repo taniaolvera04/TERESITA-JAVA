@@ -309,8 +309,7 @@ public class AdminProductos {
             	public void actionPerformed(ActionEvent e) {
             		PreparedStatement ps=null;
     				DefaultTableModel modelo=new DefaultTableModel();
-    				lbl.setVisible(true);
-    				txtid.setVisible(true);
+    			
     				try {
     					Conexion cx=new Conexion();
     					Connection cn=cx.conectar();

@@ -77,7 +77,7 @@ public class AdminUsuarios {
 		PLU.getContentPane().setBackground(new Color(255, 234, 248));
 		PLU.setIconImage(Toolkit.getDefaultToolkit().getImage(AdminUsuarios.class.getResource("/img/08TeresitaLogo.png")));
 		PLU.setTitle("ADMIN — USUARIOS");
-		PLU.setBounds(100, 100, 940, 884);
+		PLU.setBounds(100, 100, 1059, 884);
 		PLU.setLocationRelativeTo(null);
 		
 		PLU.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,8 +157,9 @@ public class AdminUsuarios {
 	        //TABLA CON LISTENER
 	        JScrollPane scrollPane = new JScrollPane();
 	        scrollPane.setFont(new Font("Dubai", Font.BOLD, 15));
-	        scrollPane.setBounds(332, 159, 557, 518);
+	        scrollPane.setBounds(313, 159, 704, 518);
 	        panel.add(scrollPane);
+	        
 
 	        JTable tablausuarios = new JTable();
 	        tablausuarios.setBackground(Color.WHITE); // Fondo blanco
@@ -169,23 +170,27 @@ public class AdminUsuarios {
 	            public void mouseClicked(MouseEvent e) {
 	                PreparedStatement ps = null;
 	                ResultSet rs = null;
-	             
+
 	                try {
 	                    Conexion cx = new Conexion();
 	                    Connection cn = cx.conectar();
 	                    int fila = tablausuarios.getSelectedRow();
-	                    String idp = tablausuarios.getValueAt(fila, 0).toString();
-	                    ps = cn.prepareStatement("SELECT id_p, nombrep, tamano, costoc, costov, stock FROM producto WHERE id_p=?");
-	                    ps.setString(1, idp);
+	                    String idu = tablausuarios.getValueAt(fila, 0).toString(); // id_u
+	                    ps = cn.prepareStatement("SELECT id_u, nombre, ap, am, username, password, tc, tipo, id_dir FROM usuario WHERE id_u=?");
+	                    ps.setString(1, idu);
 	                    rs = ps.executeQuery();
 
 	                    if (rs.next()) {
-	                        txtid.setText(rs.getString("id_p"));
-	                        txtnomp.setText(rs.getString("nombrep"));
-	                        txttamano.setText(rs.getString("tamano"));
-	                        txtcostoc.setText(rs.getString("costoc"));
-	                        txtcostov.setText(rs.getString("costov"));
-	                        txtstock.setText(rs.getString("stock"));
+	                        txtidu.setText(rs.getString("id_u")); // ID de usuario
+	                        txtnombre.setText(rs.getString("nombre")); // Nombre
+	                        txtap.setText(rs.getString("ap")); // Apellido paterno
+	                        txtam.setText(rs.getString("am")); // Apellido materno
+	                        txtusername.setText(rs.getString("username")); // Nombre de usuario
+	                        txtpass.setText(rs.getString("password")); // Nombre de usuario
+	                        txttc.setText(rs.getString("tc")); // Teléfono celular
+	                        txttipo.setText(rs.getString("tipo")); // Tipo
+	                        txtiddir.setText(rs.getString("id_dir")); // ID de dirección
+	                        // No se asigna la contraseña
 	                    }
 
 	                } catch (Exception e2) {
@@ -195,143 +200,164 @@ public class AdminUsuarios {
 	        });
 	        tablausuarios.setModel(new DefaultTableModel(
 	            new Object[][] {},
-	            new String[] {}
+	            new String[] {"ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Username", "Teléfono Fijo", "Teléfono Celular", "Tipo", "ID Dirección"}
 	        ));
 	        scrollPane.setViewportView(tablausuarios);
 
+	        
+	        
 	        try {
 	            DefaultTableModel modelo = new DefaultTableModel();
 	            tablausuarios.setModel(modelo);
-	            
-	            txtidu = new JTextField();
-	            txtidu.setEnabled(false);
-	            txtidu.setHorizontalAlignment(SwingConstants.CENTER);
-	            txtidu.setForeground(Color.GRAY);
-	            txtidu.setFont(new Font("Dubai", Font.BOLD, 16));
-	            txtidu.setColumns(10);
-	            txtidu.setBounds(58, 96, 225, 38);
-	            panel.add(txtidu);
+
 	            
 	            
-	            
-	            //REGISTRAR PRODUCTO
 	            JButton btnRegistrar = new JButton("REGISTRAR");
 	            btnRegistrar.addActionListener(new ActionListener() {
-	            	public void actionPerformed(ActionEvent e) {
-	            				MetodosTeresita mt=new MetodosTeresita();
-	            				
-	            				
-	            				String nombre = txtnombre.getText();
-	            				String ap = txtap.getText();
-	            				String am = txtam.getText();
-	            				String username = txtusername.getText();
-	            				String password = txtpass.getText();
-	            				int tc = Integer.parseInt(txttc.getText());
-	            				String tipo = txttipo.getText();
-	            				int idDir = Integer.parseInt(txtiddir.getText());
+	                public void actionPerformed(ActionEvent e) {
+	                    MetodosTeresita mt = new MetodosTeresita();
 
-	            				mt.setNombre(nombre);
-	            				mt.setAp(ap);
-	            				mt.setAm(am);
-	            				mt.setUsername(username);
-	            				mt.setPassword(password);
-	            				mt.setTc(tc);
-	            				mt.setTipo(tipo);
-	            				mt.setIddir(idDir);
+	                    String nombre = txtnombre.getText();
+	                    String ap = txtap.getText();
+	                    String am = txtam.getText();
+	                    String username = txtusername.getText();
+	                    String password = txtpass.getText();
+	                  
+	                    String tc = txttc.getText(); // Cambiar de int a String
 
-	            			        
-	            				if (nombre.isEmpty() || ap.isEmpty() || am.isEmpty() || username.isEmpty() || 
-	            					    password.isEmpty() || tipo.isEmpty()) {
-	            					JOptionPane.showMessageDialog(null, "CAMPOS VACÍOS");
-	            				}else {
-	            					
-	            				
-	            				if(mt.insertarProducto()) {
-	            					JOptionPane.showMessageDialog(null, "¡USUARIO REGISTRADO ÉXITOSAMENTE!");
-	            				}else {
-	            					JOptionPane.showMessageDialog(null, "¡ERROR AL REGISTRAR!");
-	            				}
-	            				}
-	            				
-	            	}
+	                    String tipo = txttipo.getText();
+	                    int iddir = Integer.parseInt(txtiddir.getText());
+
+	                    // Validar entradas
+	                    if (nombre.isEmpty() || ap.isEmpty() || am.isEmpty() || username.isEmpty() || 
+	                        password.isEmpty() || tipo.isEmpty()) {
+	                        JOptionPane.showMessageDialog(null, "CAMPOS VACÍOS");
+	                        return;
+	                    }
+
+	                     
+	                        mt.setNombre(nombre);
+	                        mt.setAp(ap);
+	                        mt.setAm(am);
+	                        mt.setUsername(username);
+	                        mt.setPassword(password); 
+	                        mt.setTc(tc);
+	                        mt.setTipo(tipo);
+	                        mt.setIddir(iddir);
+
+	                        if (mt.insertarU()) { 
+	                            JOptionPane.showMessageDialog(null, "¡USUARIO REGISTRADO ÉXITOSAMENTE!");
+	                        } else {
+	                            JOptionPane.showMessageDialog(null, "¡ERROR AL REGISTRAR!");
+	                        }
+	                
+	                }
 	            });
-	            btnRegistrar.setBackground(new Color(255, 128, 172)); 
-	            btnRegistrar.setForeground(new Color(255, 255, 255)); 
+	            btnRegistrar.setForeground(Color.WHITE);
 	            btnRegistrar.setFont(new Font("Dubai", Font.BOLD, 18));
-	            btnRegistrar.setBounds(948, 213, 148, 43);
+	            btnRegistrar.setBackground(new Color(255, 128, 172));		           
+	            btnRegistrar.setBounds(332, 707, 148, 43);
 	            panel.add(btnRegistrar);
 	            
+	   
 	            
 	            //BOTON DE EDITAR
 	            
 	            JButton btnEditar = new JButton("EDITAR");
 	            btnEditar.addActionListener(new ActionListener() {
 	            	public void actionPerformed(ActionEvent e) {
-	            		MetodosTeresita mt=new 	MetodosTeresita();
-	    				
-	    				String nombrep=txtnomp.getText();
-	    				double costoc=Double.parseDouble(txtcostoc.getText());
-	    				double costov=Double.parseDouble(txtcostov.getText());
-	    				String tamano=txttamano.getText();
-	    				int stock=Integer.parseInt(txtstock.getText());
-	    				
-	    				mt.setNombrep(nombrep);
-	    				mt.setTamano(tamano);
-	    				mt.setCostoc(costoc);
-	    				mt.setCostov(costov);
-	    				mt.setStock(stock);
-	    				mt.setIdp(Integer.parseInt(txtid.getText()));
-	    				
-	    				if(mt.actualizarProducto()) {
-	    					JOptionPane.showMessageDialog(null, "¡ACTUALIZACIÓN EXITOSA!");
-	    					
-	    				}else {       
-	    					JOptionPane.showMessageDialog(null, "¡ERROR!");
-	    				}
+	            		   MetodosTeresita mt = new MetodosTeresita();
+
+	            		   int idu=Integer.parseInt(txtidu.getText());
+	            	        String nombre = txtnombre.getText();
+	            	        String ap = txtap.getText();
+	            	        String am = txtam.getText();
+	            	        String username = txtusername.getText();
+	            	        String password = txtpass.getText();
+	            	        String tc = txttc.getText(); // Cambiar de int a String
+	            	        String tipo = txttipo.getText();
+	            	        int iddir = Integer.parseInt(txtiddir.getText());
+	            	        
+	            	        // Validate inputs
+	            	        if (nombre.isEmpty() || ap.isEmpty() || am.isEmpty() || username.isEmpty() || 
+	            	            password.isEmpty() || tipo.isEmpty()) {
+	            	            JOptionPane.showMessageDialog(null, "CAMPOS VACÍOS");
+	            	            return;
+	            	        }
+
+	            	      
+	            	            mt.setNombre(nombre);
+	            	            mt.setAp(ap);
+	            	            mt.setAm(am);
+	            	            mt.setUsername(username);
+	            	            mt.setPassword(password); // Consider hashing this
+	            	            mt.setTc(tc);
+	            	            mt.setTipo(tipo);
+	            	            mt.setIddir(iddir);
+	            	            mt.setIdu(idu);
+
+	            	            if (mt.actualizarU()) {
+	            	                JOptionPane.showMessageDialog(null, "¡ACTUALIZACIÓN EXITOSA!");
+	            	            } else {
+	            	                JOptionPane.showMessageDialog(null, "¡ERROR!");
+	            	            }
+	         
+	            	    
 	            	}
 	            });
 	            btnEditar.setForeground(Color.WHITE);
 	            btnEditar.setFont(new Font("Dubai", Font.BOLD, 18));
 	            btnEditar.setBackground(new Color(155, 155, 155));
-	            btnEditar.setBounds(948, 370, 148, 43);
+	            btnEditar.setBounds(591, 707, 148, 43);
 	            panel.add(btnEditar);
+	            
+	            
 	            
 	            JButton btnEliminar = new JButton("ELIMINAR");
 	            btnEliminar.addActionListener(new ActionListener() {
-	            	public void actionPerformed(ActionEvent e) {
-	            		PreparedStatement ps=null;
-	    				DefaultTableModel modelo=new DefaultTableModel();
-	    				lbl.setVisible(true);
-	    				txtid.setVisible(true);
-	    				try {
-	    					Conexion cx=new Conexion();
-	    					Connection cn=cx.conectar();
-	    					int fila=tablausuarios.getSelectedRow();
-	    					String idp=tablausuarios.getValueAt(fila, 0).toString();
-	    		         	ps=cn.prepareStatement("DELETE FROM producto WHERE id_p=?");
-	    					ps.setString(1, idp);
-	    					ps.execute();
-	    					 txtid.setText("");
-	                         txtnomp.setText("");
-	                         txttamano.setText("");
-	                         txtcostoc.setText("");
-	                         txtcostov.setText("");
-	                         txtstock.setText("");
-	                        JOptionPane.showMessageDialog(null, "EL PRODUCTO SE ELIMINÓ");
-	    		
+	                public void actionPerformed(ActionEvent e) {
+	                	PreparedStatement ps = null;
 
-	    					}catch(Exception e2) {
-	    						System.out.println(e2.toString());
+	                	try {
+	                	    Conexion cx = new Conexion();
+	                	    Connection cn = cx.conectar();
+	                	    int fila = tablausuarios.getSelectedRow();
 
-	    					
-	    			}
-	            	}
+	                	    // Asegurarse de que se haya seleccionado una fila
+	                	    if (fila >= 0) {
+	                	        String idu = tablausuarios.getValueAt(fila, 0).toString(); // id_u
+	                	        ps = cn.prepareStatement("DELETE FROM usuario WHERE id_u=?");
+	                	        ps.setString(1, idu);
+	                	        ps.execute();
+
+	                	        // Limpiar campos de texto
+	                	        txtidu.setText("");
+	                	        txtnombre.setText("");
+	                	        txtap.setText("");
+	                	        txtam.setText("");
+	                	        txtusername.setText("");
+	                	        txtpass.setText("");
+	                	        txttc.setText("");
+	                	        txttipo.setText("");
+	                	        txtiddir.setText("");
+
+	                	        JOptionPane.showMessageDialog(null, "¡USUARIO ELIMINADO EXITOSAMENTE!");
+	                	    } else {
+	                	        JOptionPane.showMessageDialog(null, "¡Seleccione un usuario para eliminar!");
+	                	    }
+	                	}catch(Exception e2) {
+    						System.out.println(e2.toString());
+
+    					
+    			}
+	                }
 	            });
 	            btnEliminar.setForeground(Color.WHITE);
 	            btnEliminar.setFont(new Font("Dubai", Font.BOLD, 18));
 	            btnEliminar.setBackground(new Color(255, 128, 172));
-	            btnEliminar.setBounds(948, 526, 148, 43);
+	            btnEliminar.setBounds(834, 707, 148, 43);
 	            panel.add(btnEliminar);
+
 	            
 	            JButton btnCargar = new JButton("*");
 	            btnCargar.addActionListener(new ActionListener() {
@@ -346,19 +372,23 @@ public class AdminUsuarios {
 	    					Conexion cn=new Conexion();
 	    					Connection conectar=cn.conectar();
 	    					
-	    					String sql="SELECT * FROM producto";
+	    					String sql="SELECT id_u, nombre, ap, am, username, password, tf, tc, tipo, id_dir FROM usuario";
 	    					ps=conectar.prepareStatement(sql);
 	    					rs=ps.executeQuery();
 	    					
 	    					
 	    					ResultSetMetaData rmds=(ResultSetMetaData)rs.getMetaData();
 	    					int cantcol=rmds.getColumnCount();
-	    					modelo.addColumn("ID_P");
-	    					modelo.addColumn("NOMBRE");
-	    					modelo.addColumn("TAMAÑO");
-	    					modelo.addColumn("COSTO (C)");
-	    					modelo.addColumn("COSTO (V)");
-	    					modelo.addColumn("CANTIDAD");
+	    					  modelo.addColumn("ID");
+	    			            modelo.addColumn("NOMBRE");
+	    			            modelo.addColumn("APELLIDO P.");
+	    			            modelo.addColumn("APELLIDO M.");
+	    			            modelo.addColumn("USER");
+	    			            modelo.addColumn("PASS");
+	    			            modelo.addColumn("TELÉFONO F.");
+	    			            modelo.addColumn("TELÉFONO C.");
+	    			            modelo.addColumn("TIPO");
+	    			            modelo.addColumn("ID DIR");
 	    					
 	    					while(rs.next()) {
 	    						Object[]filas=new Object[cantcol];
@@ -377,7 +407,7 @@ public class AdminUsuarios {
 	            btnCargar.setForeground(new Color(255, 255, 255));
 	            btnCargar.setFont(new Font("Dubai", Font.BOLD, 18));
 	            btnCargar.setBackground(new Color(155, 155, 155));
-	            btnCargar.setBounds(823, 102, 51, 43);
+	            btnCargar.setBounds(966, 99, 51, 43);
 	            panel.add(btnCargar);
 	            
 	            txtidu = new JTextField();
@@ -474,46 +504,30 @@ public class AdminUsuarios {
 	            txtiddir.setBounds(53, 770, 225, 38);
 	            panel.add(txtiddir);
 	            
-	            JButton btnRegistrar_1 = new JButton("REGISTRAR");
-	            btnRegistrar_1.setForeground(Color.WHITE);
-	            btnRegistrar_1.setFont(new Font("Dubai", Font.BOLD, 18));
-	            btnRegistrar_1.setBackground(new Color(255, 128, 172));
-	            btnRegistrar_1.setBounds(332, 739, 148, 43);
-	            panel.add(btnRegistrar_1);
+	         
 	            
-	            JButton btnEditar_1 = new JButton("EDITAR");
-	            btnEditar_1.setForeground(Color.WHITE);
-	            btnEditar_1.setFont(new Font("Dubai", Font.BOLD, 18));
-	            btnEditar_1.setBackground(new Color(155, 155, 155));
-	            btnEditar_1.setBounds(535, 739, 148, 43);
-	            panel.add(btnEditar_1);
-	            
-	            JButton btnEliminar_1 = new JButton("ELIMINAR");
-	            btnEliminar_1.setForeground(Color.WHITE);
-	            btnEliminar_1.setFont(new Font("Dubai", Font.BOLD, 18));
-	            btnEliminar_1.setBackground(new Color(255, 128, 172));
-	            btnEliminar_1.setBounds(740, 739, 148, 43);
-	            panel.add(btnEliminar_1);
-
-
 	            PreparedStatement ps = null;
 	            ResultSet rs = null;
 
 	            Conexion cn = new Conexion();
 	            Connection conectar = cn.conectar();
 
-	            String sql = "SELECT id_p, nombrep, tamano, costoc, costov, stock FROM producto";
+	            String sql = "SELECT id_u, nombre, ap, am, username, password, tf, tc, tipo, id_dir FROM usuario";
 	            ps = conectar.prepareStatement(sql);
 	            rs = ps.executeQuery();
 
 	            ResultSetMetaData rmds = (ResultSetMetaData) rs.getMetaData();
 	            int cantcol = rmds.getColumnCount();
-	            modelo.addColumn("ID_P");
+	            modelo.addColumn("ID");
 	            modelo.addColumn("NOMBRE");
-	            modelo.addColumn("TAMAÑO");
-	            modelo.addColumn("COSTO (C)");
-	            modelo.addColumn("COSTO (V)");
-	            modelo.addColumn("CANTIDAD");
+	            modelo.addColumn("APELLIDO P.");
+	            modelo.addColumn("APELLIDO M.");
+	            modelo.addColumn("USER");
+	            modelo.addColumn("PASS");
+	            modelo.addColumn("TELÉFONO F.");
+	            modelo.addColumn("TELÉFONO C.");
+	            modelo.addColumn("TIPO");
+	            modelo.addColumn("ID DIR");
 
 	            while (rs.next()) {
 	                Object[] filas = new Object[cantcol];
@@ -522,10 +536,11 @@ public class AdminUsuarios {
 	                }
 	                modelo.addRow(filas);
 	            }
-
+	        
 	        } catch (SQLException ex) {
 	            System.err.println(ex.getMessage());
 	        }
+
 
 	}
 

@@ -1,5 +1,0 @@
-package Modelo;
-
-public class Conexion {
-  private static final String controlador="com.mysql.cj.jdbc.Driver";
-}

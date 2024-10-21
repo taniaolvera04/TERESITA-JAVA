@@ -167,92 +167,114 @@ public int existeUsuario(MetodosTeresita mt) {
 
 
 public boolean insertarU(MetodosTeresita mt) {
-	PreparedStatement ps=null;
-	try {
-		ps=conectar().prepareStatement("INSERT INTO usuario(id_u, nombre, ap, ussername, password, tipo, codigo) VALUES(?, ?, ?, ?, ?, ?, ?)");
-	ps.setInt(1, k.getId());
-		ps.setString(2, k.getNombre());
-		ps.setString(3, k.getAp());
-		ps.setString(4, k.getNombreu());
-		ps.setString(5, k.getContra());
-		ps.setString(6, k.getTipo());
-		ps.setString(7, k.getCodigo());
-		ps.executeUpdate();
-		return true;
-		
-	}catch(SQLException e) {
-		return false;
-		
-	}
-	
+    PreparedStatement ps = null;
+    Connection conn = null; // Manejo de conexión
+    try {
+        conn = conectar(); // Establecer la conexión
+        ps = conn.prepareStatement("INSERT INTO usuario(nombre, ap, am, username, password, tf, tc, tipo, id_dir) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ps.setString(1, mt.getNombre());
+        ps.setString(2, mt.getAp());
+        ps.setString(3, mt.getAm());
+        ps.setString(4, mt.getUsername());
+        ps.setString(5, mt.getPassword());
+        ps.setLong(6, 5582030807L); // Valor fijo para el teléfono fijo
+        ps.setString(7, mt.getTc());
+        ps.setString(8, mt.getTipo());
+        ps.setInt(9, mt.getIddir());
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0; // Devuelve true si la inserción fue exitosa
+    } catch (SQLException e) {
+        e.printStackTrace(); // Log de excepciones para depuración
+        return false;
+    } finally {
+        // Cerrar recursos
+        try {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close(); // Asegurarse de cerrar la conexión
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
+
+
 public boolean consultarU(MetodosTeresita mt) {
-	PreparedStatement ps=null;
-	ResultSet rs=null;
-	System.out.println("Entro");
-	Conexion c=new Conexion();
-	c.existe(k);
-	
-	if(k.getCuantos()==1)	{
-	try {
-	ps=conectar().prepareStatement("SELECT * FROM usuario WHERE id_u=?");
-	ps.setInt(1, k.getId());
-	rs=ps.executeQuery();
-	if(rs.next()) {
-		
-		k.setId(rs.getInt("id_u"));
-	
-	}
-	return true;
-	}catch (Exception e2) {
-	return false;
-	}
-	 }else {
-	return false;
-	 }
-	 }
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    System.out.println("Entro");
+    Conexion c = new Conexion();
+    c.existeUsuario(mt);
+    
+    if (mt.getCuantos() == 1) {
+        try {
+            ps = conectar().prepareStatement("SELECT * FROM usuario WHERE id_u=?");
+            ps.setInt(1, mt.getIdu());
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                mt.setIdu(rs.getInt("id_u"));
+                mt.setNombre(rs.getString("nombre"));
+                mt.setAp(rs.getString("ap"));
+                mt.setAm(rs.getString("am"));
+                mt.setUsername(rs.getString("username"));
+                mt.setPassword(rs.getString("password"));
+                mt.setTc(rs.getString("tc"));
+                mt.setTipo(rs.getString("tipo"));
+                mt.setIddir(rs.getInt("id_dir"));
+            }
+            return true;
+        } catch (Exception e2) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+
 
 public boolean eliminarU(MetodosTeresita mt) {
-	PreparedStatement ps=null;
-	Conexion c=new Conexion();
-	c.existe(k);
-	
-	if(k.getCuantos()==1)	{
-	try {
-	ps=conectar().prepareStatement("DELETE FROM usuario WHERE id_u=?");
-	ps.setInt(1, k.getId());
-	ps.executeUpdate();
-	return true;
-	}catch (SQLException e) {
-	return false ;
-	}
-	}else {
-		return false;
-	}
-	 }
+    PreparedStatement ps = null;
+    Conexion c = new Conexion();
+    c.existeUsuario(mt);
+    
+    if (mt.getCuantos() == 1) {
+        try {
+            ps = conectar().prepareStatement("DELETE FROM usuario WHERE id_u=?");
+            ps.setInt(1, mt.getIdu());
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 	 
-	 
-	 public boolean actualizarU(MetodosTeresita mt) {
-	 PreparedStatement ps=null;
-	 System.out.println("Entro");
-	 try {
-		 System.out.println("Entro");
-	 ps=conectar().prepareStatement("UPDATE usuario SET nombre=?, ap=?, ussername=?,password=?, WHERE id_u=?");
-	 
-	 ps.setInt(5, k.getId());
-	 ps.setString(1, k.getNombre());
-	 ps.setString(2, k.getAp());
-	 ps.setString(3, k.getNombreu());
-	 ps.setString(4, k.getContra());
-	  ps.executeUpdate();
-	  
-	  return true;
-	 }catch(SQLException e) {
-	  return false;
-	 }
-	}
+public boolean actualizarU(MetodosTeresita mt) {
+    PreparedStatement ps = null;
+    try {
+        ps = conectar().prepareStatement("UPDATE usuario SET nombre=?, ap=?, am=?, username=?, password=?, tc=?, tipo=?, id_dir=? WHERE id_u=?");
+        ps.setString(1, mt.getNombre());
+        ps.setString(2, mt.getAp());
+        ps.setString(3, mt.getAm());
+        ps.setString(4, mt.getUsername());
+        ps.setString(5, mt.getPassword());
+        ps.setString(6, mt.getTc());
+        ps.setString(7, mt.getTipo());
+        ps.setInt(8, mt.getIddir());
+        ps.setInt(9, mt.getIdu());
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        return false;
+    }
+}
+
 
 	 
 }

@@ -12,7 +12,7 @@ public class MetodosTeresita {
 	String username;
 	String password;
 	int tf;
-	int tc;
+	String tc;
 	String tipo;
 	int iddir;
 	
@@ -140,10 +140,10 @@ public boolean actualizarU() {
 	public void setTf(int tf) {
 		this.tf = tf;
 	}
-	public int getTc() {
+	public String getTc() {
 		return tc;
 	}
-	public void setTc(int tc) {
+	public void setTc(String tc) {
 		this.tc = tc;
 	}
 	public String getTipo() {
